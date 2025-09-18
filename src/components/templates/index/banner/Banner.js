@@ -12,19 +12,19 @@ export default function Banner() {
     <Swiper navigation={true} rewind={true} loop={true} modules={[Navigation,Autoplay]} className="mySwiper">
       <SwiperSlide>
         <img
-          src="https://set-coffee.com/wp-content/uploads/2023/12/slide.jpg"
+          src="/images/slide.jpg"
           alt="Slide"
         />
       </SwiperSlide>
       <SwiperSlide>
         <img
-          src="https://set-coffee.com/wp-content/uploads/2021/10/winter-slie.jpg"
+          src="/images/winter-slie.jpg"
           alt="Slide"
         />
       </SwiperSlide>
       <SwiperSlide>
         <img
-          src="https://set-coffee.com/wp-content/uploads/2022/06/fall.jpg"
+          src="/images/fall.jpg"
           alt="Slide"
         />
       </SwiperSlide>
