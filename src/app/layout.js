@@ -1,6 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-
+import AosInit from '@/utils/Aos';
 const inter = Inter({ subsets: ['latin'] })
 
 
@@ -15,7 +15,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fa" >
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AosInit/>
+        {children}
+        </body>
     </html>
   )
 }
