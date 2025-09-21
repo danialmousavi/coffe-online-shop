@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import styles from "./register.module.css";
 import Sms from "./Sms";

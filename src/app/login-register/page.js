@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import styles from "@/styles/login-register.module.css"
 import Login from '@/components/templates/login-register/Login';
-import Register from '@/components/templates/login-register/register';
+import Register from '@/components/templates/login-register/Register';
 export default function page() {
   const [authType,setAuthType]=useState("login");
   const showRegisterForm=()=>{

@@ -1,5 +1,4 @@
 import { sign, verify } from "jsonwebtoken";
-
 const { hash, compare } = require("bcryptjs");
 
 const hashPassword = async (password) => {
@@ -49,4 +48,5 @@ const valiadtePassword = (password) => {
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/g;
   return pattern.test(password);
 };
+
 export { hashPassword, verifyPassword,generateAccessToken,verifyAccessToken ,generateRefreshToken,valiadteEmail,valiadtePassword,valiadtePhone};
