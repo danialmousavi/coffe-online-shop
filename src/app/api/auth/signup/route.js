@@ -18,7 +18,7 @@ export async function POST(req) {
       );
     }
     const hashedPassword = await hashPassword(password);
-    const accessToken = generateAccessToken({email});
+    const accessToken = generateAccessToken({ email });
     const users = await userModel.find({});
 
     await userModel.create({
@@ -29,7 +29,7 @@ export async function POST(req) {
       role: users.length > 0 ? "USER" : "ADMIN",
     });
     return Response.json(
-      { message: "User created successfully" },
+      { message: "User signed up successfully :))" },
       {
         status: 201,
         headers: { "Set-Cookie": `token=${accessToken};path=/;httpOnly=true` },
@@ -37,6 +37,5 @@ export async function POST(req) {
     );
   } catch (error) {
     console.log(error);
-    
   }
 }

@@ -1,4 +1,4 @@
-import { sign } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 
 const { hash, compare } = require("bcryptjs");
 
@@ -11,18 +11,19 @@ const verifyPassword = async (password, hashedPassword) => {
   const isValid = await compare(password, hashedPassword);
   return isValid;
 };
-
 const generateAccessToken = (data) => {
-  const token = sign({ ...data }, process.env.AccessTokenSecretKey,{
-    expiresIn:"60s"
+  const token = sign({ ...data },process.env.AccessTokenSecretKey, {
+    expiresIn: "20h",
   });
   return token;
 };
-const verifyAccessToken = () => {
+
+const verifyAccessToken = (token) => {
   try {
-    const decoded = verify(token, process.env.AccessTokenSecretKey);
+    const decoded = verify(token,process.env.AccessTokenSecretKey);
     return decoded;
   } catch (error) {
+    console.log("JWT verify error:", error.message);
     return null;
   }
 };

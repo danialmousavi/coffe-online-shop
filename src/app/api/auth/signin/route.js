@@ -27,7 +27,10 @@ export async function POST(req) {
       return Response.json({ message: "user not found!" }, { status: 422 });
     }
 
-    const iscorrectPasswordWithHash = await verifyPassword(password, user.password);
+    const iscorrectPasswordWithHash = await verifyPassword(
+      password,
+      user.password
+    );
     if (!iscorrectPasswordWithHash) {
       return Response.json(
         { message: "email or password is not correct" },
@@ -46,12 +49,11 @@ export async function POST(req) {
       }
     );
     return Response.json(
-      { message: "user logged in successfully" },
+      { message: "User logged in successfully :))" },
       {
         status: 201,
-
         headers: {
-          "Set-Cookie": `token=${accessToken};path=/;httpOnly=true`,
+          "Set-Cookie": `token=${accessToken};path=/;httpOnly=true;`,
         },
       }
     );
