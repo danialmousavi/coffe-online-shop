@@ -11,7 +11,9 @@ const Comment = ({p}) => {
         <div className={styles.main_details}>
           <div className={styles.user_info}>
             <strong>{p.username}</strong>
-            <p>۲۸ آذر ۱۴۰۱</p>
+            <p>
+              {new Date(p.date).toLocaleDateString("fa-IR")}
+            </p>
           </div>
           <div className={styles.stars}>
           {new Array(p.score).fill(0).map((item, index) => (
