@@ -19,14 +19,14 @@ const schema = mongoose.Schema({
   },
   date: {
     type: Date,
-    default: () => date.now(),
+    default: () => Date.now(),
     immutable: false,
   },
-  product: {
+  productID: {
     type: mongoose.Types.ObjectId,
     ref:"Product"
   },
 });
 
-const commentModel=mongoose.models("Comment")||mongoose.model("Comment",schema)
+const commentModel=mongoose.models.Comment||mongoose.model("Comment",schema)
 export default commentModel

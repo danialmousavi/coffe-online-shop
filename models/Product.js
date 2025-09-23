@@ -32,7 +32,7 @@ const schema = mongoose.Schema({
   },
   score: {
     type: Number,
-    required: true,
+    default: 5,
   },
   tags: {
     type: [String],
@@ -48,5 +48,5 @@ const schema = mongoose.Schema({
 });
 
 const productModel =
-  mongoose.models("Product") || mongoose.model("Product", schema);
+  mongoose.models.Product || mongoose.model("Product", schema);
 export default productModel;
