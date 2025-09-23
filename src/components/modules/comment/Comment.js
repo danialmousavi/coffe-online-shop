@@ -1,27 +1,30 @@
-import { FaStar } from "react-icons/fa";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
 import styles from "./comment.module.css";
-const Comment = () => {
+const Comment = ({p}) => {
+
+  
   return (
     <section className={styles.comment}>
-      <img src="/images/shahin.jpg" className={styles.avatar} alt="" />
+      <img src="/images/user.jpg" className={styles.avatar} alt="" />
       <div>
         <div className={styles.main_details}>
           <div className={styles.user_info}>
-            <strong>shahin</strong>
+            <strong>{p.username}</strong>
             <p>۲۸ آذر ۱۴۰۱</p>
           </div>
           <div className={styles.stars}>
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
+          {new Array(p.score).fill(0).map((item, index) => (
+            <FaStar key={index} />
+          ))}
+
+          {new Array(5 - p.score).fill(0).map((item, index) => (
+            <FaRegStar key={index} />
+          ))}
           </div>
         </div>
         <p>
-          قهوه بسیار خوش عطر و طعمیه…کاش کم کم مدل های کپسول ها رو متنوع تر
-          کنید.
+          {p.body}
         </p>
       </div>
     </section>

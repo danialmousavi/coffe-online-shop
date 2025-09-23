@@ -7,19 +7,26 @@ import Gallery from "@/components/templates/product/Gallery";
 import Details from "@/components/templates/product/Details";
 import Tabs from "@/components/templates/product/Tabs";
 import MoreProducts from "@/components/templates/product/MoreProducts";
+import connectToDB from "@/configs/db";
+import productModel from "@/models/Product";
+import { Jost } from "next/font/google";
 
-const product = async () => {
+const product = async ({params}) => {
   const user = await userAuth();
-
+  const productID=params.id;
+  connectToDB()
+  const product=await productModel.findOne({_id:productID}).populate("comments");
+  console.log("product",product);
+  
   return (
     <div className={styles.container}>
       <Navbar isLogin={user ? true : false} />
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
-          <Details />
+          <Details product={JSON.parse(JSON.stringify(product))} />
           <Gallery />
         </div>
-        <Tabs />
+        <Tabs  product={JSON.parse(JSON.stringify(product))} />
         <MoreProducts />
       </div>
       <Footer />

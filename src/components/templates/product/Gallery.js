@@ -28,7 +28,7 @@ const Gallery = () => {
         className="mySwiper2 gallery-slider"
       >
         {images.map((img) => (
-          <SwiperSlide>
+          <SwiperSlide key={Math.random()}>
             <img src={img} />
           </SwiperSlide>
         ))}

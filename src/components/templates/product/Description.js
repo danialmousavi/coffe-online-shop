@@ -1,6 +1,6 @@
 import React from "react";
 
-const Description = () => {
+const Description = ({desc}) => {
   return (
     <div>
       <p>توضیحات :</p>
@@ -9,10 +9,7 @@ const Description = () => {
       <p>( South and Central America and Africa ( 100% ARABICA</p>
       <p>( NESPRESSO COMPATIBLE COFFEE CAPSULE ( GOLD</p>
       <p>
-        کپسول نسپرسو ایرانی قهوه ست مدل Gold سازگار با دستگاه‌های کپسولی نسپرسو
-        است. ترکیب این کپسول قهوه ایرانی 100% عربیکا بوده و با برشته‌کاری متوسط
-        به بالا از اسیدیته متوسط و بسیار خوشایند و متوازن به همراه تلخی متوسط به
-        پایین به همراه تن‌واری متوسط است.
+        {desc}
       </p>
       <p>
         کپسول قهوه Gold Setpresso ترکیب با شیر بسیار مناسبی نیز ایجاد می‌کند.

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Description from "./Description";
 import MoreInfoes from "./MoreInfoes";
 import Comments from "./Comments";
-const Tabs = () => {
+const Tabs = ({product}) => {
   const [tab, setTab] = useState("description");
   return (
     <div data-aos="fade-left" className={styles.tabs}>
@@ -14,21 +14,21 @@ const Tabs = () => {
         type="radio"
         id="description"
         name="tab-control"
-        checked={tab == "description" && "checked"}
+        defaultChecked={tab == "description" && "checked"}
       />
       <input
         onClick={() => setTab("moreInfoes")}
         type="radio"
         id="moreInfoes"
         name="tab-control"
-        checked={tab == "moreInfoes" && "checked"}
+        defaultChecked={tab == "moreInfoes" && "checked"}
       />
       <input
         onClick={() => setTab("comments")}
         type="radio"
         id="comments"
         name="tab-control"
-        checked={tab == "comments" && "checked"}
+        defaultChecked={tab == "comments" && "checked"}
       />
       <ul>
         <li title="Features">
@@ -46,20 +46,20 @@ const Tabs = () => {
         <li title="Shipping">
           <label htmlFor="comments" role="button">
             {" "}
-            نظرات (7){" "}
+            نظرات ({product.comments.length}){" "}
           </label>
         </li>
       </ul>
 
       <div className={styles.contents}>
         <section className={styles.tabs_content}>
-          <Description />
+          <Description desc={product.longDescription} />
         </section>
         <section className={styles.tabs_content}>
-          <MoreInfoes />
+          <MoreInfoes suitableFor={product.suitableFor} smell={product.smell} weight={product.weight} />
         </section>
         <section className={styles.tabs_content}>
-          <Comments />
+          <Comments product={product}/>
         </section>
       </div>
     </div>
