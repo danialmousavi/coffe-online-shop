@@ -20,7 +20,7 @@ const Comments = ({product}) => {
           </div>
         </div>
         <div className={styles.form_bg}>
-          <CommentForm />
+          <CommentForm productID={product._id} />
         </div>
       </main>
     </div>

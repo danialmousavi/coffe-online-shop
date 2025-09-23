@@ -1,63 +1,127 @@
+import React, { useState } from "react";
 import { IoMdStar } from "react-icons/io";
 import styles from "./commentForm.module.css";
-const CommentForm = () => {
+import { showSwal } from "@/utils/Helpers";
+
+const CommentForm = ({ productID }) => {
+  const [body, setBody] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [score, setScore] = useState(0); // <-- عددی شروع می‌کنیم
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSetComment = async (e) => {
+    e?.preventDefault?.();
+    // ساده‌ترین اعتبارسنجی سمت کلاینت
+    if (!body || !username || !email) {
+      showSwal(".لطفاً فیلدهای ضروری را پر کنید","warning","متوجه شدم");
+      return;
+    }
+
+    const comment = { username, body, email, score, productID };
+
+    try {
+      setSubmitting(true);
+      const res = await fetch("/api/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(comment),
+      });
+
+      if (!res.ok) {
+        throw new Error(`خطا از سرور: ${res.status}`);
+      }
+
+      const data = await res.json().catch(() => null);
+      console.log("ثبت شد:", data);
+
+      // ریست فرم (در صورت نیاز)
+      setBody("");
+      setUsername("");
+      setEmail("");
+      setScore(0);
+      showSwal("دیدگاه شما ثبت شد.","success","متوجه شدم");
+    } catch (err) {
+      console.error(err);
+      showSwal("خطا هنگام ارسال دیدگاه: ",err.message||err,"متوجه شدم");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
-    <div className={styles.form}>
+    <form className={styles.form} onSubmit={handleSetComment}>
       <p className={styles.title}>دیدگاه خود را بنویسید</p>
       <p>
         نشانی ایمیل شما منتشر نخواهد شد. بخش‌های موردنیاز علامت‌گذاری شده‌اند{" "}
-        <span style={{ color: "red" }}>*</span>
+        <span className={styles.required}>*</span>
       </p>
-      <div className={styles.rate}>
-        <p>امتیاز شما :</p>
-        <div>
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-        </div>
-      </div>
+
+<div className={styles.rate}>
+  <p>امتیاز شما :</p>
+  <div>
+    {[1, 2, 3, 4, 5].map((s) => (
+      <IoMdStar
+        key={s}
+        onClick={() => setScore(s)}
+        style={{ color: score >= s ? "orange" : "gray", cursor: "pointer" }}
+      />
+    ))}
+  </div>
+</div>
+
       <div className={styles.group}>
-        <label htmlFor="">
-          دیدگاه شما
-          <span style={{ color: "red" }}>*</span>
+        <label htmlFor="comment">
+          دیدگاه شما <span className={styles.required}>*</span>
         </label>
         <textarea
           id="comment"
           name="comment"
           cols="45"
           rows="8"
-          required=""
-          placeholder=""
-        ></textarea>
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        />
       </div>
+
       <div className={styles.groups}>
         <div className={styles.group}>
-          <label htmlFor="">
-            نام
-            <span style={{ color: "red" }}>*</span>
+          <label htmlFor="username">
+            نام <span className={styles.required}>*</span>
           </label>
-          <input type="text" />
+          <input
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
+
         <div className={styles.group}>
-          <label htmlFor="">
-            ایمیل
-            <span style={{ color: "red" }}>*</span>
+          <label htmlFor="email">
+            ایمیل <span className={styles.required}>*</span>
           </label>
-          <input type="email" />
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
       </div>
+
       <div className={styles.checkbox}>
-        <input type="checkbox" name="" id="" />
-        <p>
-          {" "}
+        <input id="saveInfo" type="checkbox" />
+        <label htmlFor="saveInfo">
           ذخیره نام، ایمیل و وبسایت من در مرورگر برای زمانی که دوباره دیدگاهی
           می‌نویسم.
-        </p>
+        </label>
       </div>
-      <button>ثبت</button>
-    </div>
+
+      <button className={styles.submit} type="submit" disabled={submitting}>
+        {submitting ? "در حال ارسال..." : "ثبت"}
+      </button>
+    </form>
   );
 };
 
