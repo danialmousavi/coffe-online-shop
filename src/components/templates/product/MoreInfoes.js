@@ -1,6 +1,6 @@
 import React from "react";
 
-const MoreInfoes = ({ weight, suitableFor, smell }) => {
+const MoreInfoes = ({ product}) => {
   return (
     <div>
       <p>اطلاعات بیشتر :</p>
@@ -8,15 +8,15 @@ const MoreInfoes = ({ weight, suitableFor, smell }) => {
       <main>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p>وزن</p>
-          <p>{weight} گرم</p>
+          <p>{product.weight} گرم</p>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p>مناسب</p>
-          <p>{suitableFor}</p>
+          <p>{product.suitableFor}</p>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <p>بو</p>
-          <p>{smell}</p>
+          <p>{product.smell}</p>
         </div>
       </main>
     </div>

@@ -28,9 +28,9 @@ const MoreProducts = ({relatedProducts}) => {
         modules={[Navigation]}
         className="mySwiper "
       >
-        {relatedProducts.map(product=>(
-        <SwiperSlide>
-          <Product  {...product}/>
+        {relatedProducts.map((product,index)=>(
+        <SwiperSlide  key={index}>
+          <Product {...product}/>
         </SwiperSlide>
         ))}
       </Swiper>

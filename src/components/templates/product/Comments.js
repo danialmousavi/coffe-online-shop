@@ -3,6 +3,8 @@ import styles from "./comments.module.css";
 import CommentForm from "./CommentForm";
 
 const Comments = ({product}) => {
+  console.log("productttttt",product);
+  
   return (
     <div>
       <p>نظرات ({product.comments.filter(c=>c.isAccept).length}) :</p>
