@@ -20,7 +20,7 @@ const page = async () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar user={JSON.parse(JSON.stringify(user))}/>
       <Breadcrumb route={"علاقه مندی ها"} />
       <main className={styles.container} data-aos="fade-up">
         <p className={styles.title}>محصولات مورد علاقه شما</p>

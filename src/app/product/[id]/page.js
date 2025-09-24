@@ -9,7 +9,6 @@ import Tabs from "@/components/templates/product/Tabs";
 import MoreProducts from "@/components/templates/product/MoreProducts";
 import connectToDB from "@/configs/db";
 import productModel from "@/models/Product";
-import { Jost } from "next/font/google";
 
 const product = async ({params}) => {
   const user = await userAuth();
@@ -24,7 +23,7 @@ const product = async ({params}) => {
   
   return (
     <div className={styles.container}>
-      <Navbar isLogin={user ? true : false} />
+      <Navbar user={user} />
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
           <Details product={JSON.parse(JSON.stringify(product))} />
