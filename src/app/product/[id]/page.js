@@ -16,7 +16,7 @@ const product = async ({params}) => {
   const productID=params.id;
   connectToDB()
   const product=await productModel.findOne({_id:productID}).populate("comments");
-  console.log("product",product);
+  
   
   return (
     <div className={styles.container}>

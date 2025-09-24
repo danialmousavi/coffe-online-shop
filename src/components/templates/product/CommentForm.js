@@ -11,7 +11,7 @@ const CommentForm = ({ productID }) => {
   const [submitting, setSubmitting] = useState(false);
 
   const handleSetComment = async (e) => {
-    e?.preventDefault?.();
+    e.preventDefault();
     // ساده‌ترین اعتبارسنجی سمت کلاینت
     if (!body || !username || !email) {
       showSwal(".لطفاً فیلدهای ضروری را پر کنید","warning","متوجه شدم");

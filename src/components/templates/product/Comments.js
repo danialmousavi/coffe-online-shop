@@ -5,16 +5,16 @@ import CommentForm from "./CommentForm";
 const Comments = ({product}) => {
   return (
     <div>
-      <p>نظرات ({product.comments.length}) :</p>
+      <p>نظرات ({product.comments.filter(c=>c.isAccept).length}) :</p>
       <hr />
 
       <main className={styles.comments}>
         <div className={styles.user_comments}>
           <p className={styles.title}>
-           {product.comments.length}دیدگاه  برای {product.name}
+           {product.comments.filter(c=>c.isAccept).length}دیدگاه  برای {product.name}
           </p>
           <div>
-            {product.comments.map(p=>(
+            {product.comments.filter(c=>c.isAccept).map(p=>(
               <Comment key={p._id} p={p} />
             ))}
           </div>

@@ -1,5 +1,5 @@
 const { default: mongoose } = require("mongoose");
-require("./Product")
+require("./Product");
 const schema = mongoose.Schema({
   username: {
     type: String,
@@ -22,11 +22,16 @@ const schema = mongoose.Schema({
     default: () => Date.now(),
     immutable: false,
   },
+  isAccept: {
+    type: Boolean,
+    default:false
+  },
   productID: {
     type: mongoose.Types.ObjectId,
-    ref:"Product"
+    ref: "Product",
   },
 });
 
-const commentModel=mongoose.models.Comment||mongoose.model("Comment",schema)
-export default commentModel
+const commentModel =
+  mongoose.models.Comment || mongoose.model("Comment", schema);
+export default commentModel;
