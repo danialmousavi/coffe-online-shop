@@ -17,6 +17,10 @@ const product = async ({params}) => {
   connectToDB()
   const product=await productModel.findOne({_id:productID}).populate("comments");
   
+  const relatedProducts = await productModel.find({
+    _id: { $ne: product._id }, // خود محصول رو نیاره
+    tags: { $in: product.tags }, // هر محصولی که حداقل یکی از تگ‌های این محصول رو داشته باشه
+  });
   
   return (
     <div className={styles.container}>
@@ -27,7 +31,7 @@ const product = async ({params}) => {
           <Gallery />
         </div>
         <Tabs  product={JSON.parse(JSON.stringify(product))} />
-        <MoreProducts />
+        <MoreProducts relatedProducts={relatedProducts}/>
       </div>
       <Footer />
     </div>
