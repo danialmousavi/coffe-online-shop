@@ -32,6 +32,8 @@ function AddToWishList({productID}) {
     })
     if(res.status==201){
       showSwal("محصول با موفقیت به لیست علاقه مندی شما اضافه شد","success","تایید")
+    }else if(res.status==409){
+      showSwal("این محصول قبلا به لیست علاقه مندی ها اضافه شده است","warning","تایید")
     }
     
   };

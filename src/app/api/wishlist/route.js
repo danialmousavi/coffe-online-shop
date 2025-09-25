@@ -25,8 +25,12 @@ export async function POST(req) {
         { status: 400 }
       );
     }
-
-    await WishlistModel.create({ user, product });
+    const wish=await WishlistModel.find({user,product});
+    if(!wish){
+      await WishlistModel.create({ user, product });
+    }else{
+      return Response.json({message:"this product has been added to wishlist before"},{status:409})
+    }
 
     return Response.json(
       { message: "product added to wishlist successfully" },
