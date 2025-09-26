@@ -56,8 +56,8 @@ const Details = ({ product }) => {
       <div className={styles.details}>
         <strong>شناسه محصول: {product._id}</strong>
         <strong>برچسب:</strong>
-        {product.tags.map((tag) => (
-          <p>{tag}</p>
+        {product.tags.map((tag,index) => (
+          <p key={index}>{tag}</p>
         ))}
       </div>
 

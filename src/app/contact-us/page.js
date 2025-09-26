@@ -13,7 +13,7 @@ const page = async () => {
 
   return (
     <>
-  <Navbar isLogin={user ? true : false} />
+  <Navbar user={JSON.parse(JSON.stringify(user))} />
       <Breadcrumb route={"تماس با ما"} />
 
       <div className={styles.container}>

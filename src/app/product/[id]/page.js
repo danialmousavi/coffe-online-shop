@@ -23,7 +23,7 @@ const product = async ({params}) => {
   
   return (
     <div className={styles.container}>
-      <Navbar user={user} />
+      <Navbar user={JSON.parse(JSON.stringify(user))}/>
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
           <Details product={JSON.parse(JSON.stringify(product))} />

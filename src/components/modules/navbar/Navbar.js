@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
-import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
+import Link from "next/link";
 
 function Navbar({ user }) {
   const [fixNavbar, setFixNavbar] = useState(false);

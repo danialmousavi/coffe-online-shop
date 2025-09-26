@@ -10,7 +10,7 @@ const page = async () => {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={JSON.parse(JSON.stringify(user))} />
       <Breadcrumb route={"درباره ما"} />
       <div className={styles.container}>
         <section>

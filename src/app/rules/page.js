@@ -9,7 +9,7 @@ const page = async () => {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={JSON.parse(JSON.stringify(user))} />
       <Breadcrumb route={"قوانین"} />
       <div className={styles.container} data-aos="fade-up">
         <p>
