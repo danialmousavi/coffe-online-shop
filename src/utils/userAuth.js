@@ -9,7 +9,7 @@ export const userAuth = async () => {
   connectToDB();
   if (token) {
     const tokenPayload = verifyAccessToken(token);
-    user = await userModel.findOne({ email: tokenPayload.email });
+    user = await userModel.findOne({ email: tokenPayload?.email });
   }
   return user
 };

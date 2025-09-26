@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import styles from "./login.module.css";
 import Link from "next/link";
@@ -5,13 +6,14 @@ import Sms from "./Sms";
 
 import { valiadteEmail, valiadtePassword } from "@/utils/auth";
 import { showSwal } from "@/utils/Helpers";
-
+import { useRouter } from "next/navigation";
+import swal from "sweetalert";
 const Login = ({ showRegisterForm }) => {
   const [isLoginWithOtp, setIsLoginWithOtp] = useState(false);
   const [password, setPassword] = useState("");
   const [phoneOrEmail, setPhoneOrEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const router=useRouter();
   const cancelSendOtp = () => setIsLoginWithOtp(false);
 
   // login with password
@@ -49,8 +51,14 @@ const Login = ({ showRegisterForm }) => {
       });
 
       if (res.status === 201) {
-        showSwal("با موفقیت لاگین شدین", "success", "ورود به پنل کاربری");
-
+    
+        swal({
+          title:"با موفقیت لاگین شدین",
+          icon:"success",
+          button:"ورود به پنل کاربری"
+        }).then(()=>{
+          router.push("/")
+        })
         // ریست کردن ورودی‌ها بعد از موفقیت
         setPhoneOrEmail("");
         setPassword("");
