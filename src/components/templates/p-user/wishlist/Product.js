@@ -1,6 +1,7 @@
 "use client";
 import styles from "./product.module.css";
 import Link from "next/link";
+import { FaRegStar } from "react-icons/fa";
 import { IoMdStar } from "react-icons/io";
 import swal from "sweetalert";
 const ProductCard = ({ price, score, name }) => {
@@ -31,6 +32,9 @@ const ProductCard = ({ price, score, name }) => {
         <div>
           {new Array(score).fill(0).map((item, index) => (
             <IoMdStar key={index} />
+          ))}
+          {new Array(5 - score).fill(0).map((item, index) => (
+            <FaRegStar key={index} />
           ))}
         </div>
         <span>{price?.toLocaleString()} تومان</span>
