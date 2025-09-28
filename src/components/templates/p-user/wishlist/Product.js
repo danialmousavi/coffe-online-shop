@@ -1,19 +1,32 @@
 "use client";
+import { useRouter } from "next/navigation";
 import styles from "./product.module.css";
 import Link from "next/link";
 import { FaRegStar } from "react-icons/fa";
 import { IoMdStar } from "react-icons/io";
 import swal from "sweetalert";
-const ProductCard = ({ price, score, name }) => {
+const ProductCard = ({ price, score, name, productId }) => {
   console.log(price);
-
+  const router = useRouter();
+  const removeProductFromWishlistFunc = async () => {
+    const res = await fetch(`/api/wishlist/${productId}`, { method: "DELETE" });
+    console.log(res);
+    if (res.status == 200) {
+      router.refresh();
+    }
+  };
   const removeProduct = (productId) => {
+    console.log(productId);
+
     swal({
       title: "آیا از حذف محصول اطمینان دارید؟",
       icon: "warning",
       buttons: ["نه", "آره"],
     }).then((result) => {
       //code
+      if (result) {
+        removeProductFromWishlistFunc();
+      }
     });
   };
 
@@ -39,7 +52,10 @@ const ProductCard = ({ price, score, name }) => {
         </div>
         <span>{price?.toLocaleString()} تومان</span>
       </div>
-      <button onClick={() => removeProduct(null)} className={styles.delete_btn}>
+      <button
+        onClick={() => removeProduct(productId)}
+        className={styles.delete_btn}
+      >
         حذف محصول{" "}
       </button>
     </div>

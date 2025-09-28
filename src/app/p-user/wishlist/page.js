@@ -27,6 +27,7 @@ const page = async () => {
                 name={wish.product?.name}
                 price={wish.product?.price}
                 score={wish.product?.score}
+                productId={wish._id}
               />
             ))}
         </div>
