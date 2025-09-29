@@ -8,7 +8,7 @@ import { userAuth } from "@/utils/userAuth";
 
 export default async function Home() {
   const user=await userAuth()
-
+  
   return (
     <>
       <Navbar user={JSON.parse(JSON.stringify(user))} />

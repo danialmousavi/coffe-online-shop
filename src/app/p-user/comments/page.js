@@ -4,16 +4,20 @@ import React from "react";
 import connectToDB from "@/configs/db";
 import commentModel from "@/models/Comment";
 import { userAuth } from "@/utils/userAuth";
+import { redirect } from "next/navigation";
 
 const page = async () => {
   connectToDB();
+  let comments=[]
   const user = await userAuth();
-  const comments = await commentModel.find(
-    { user: String(user._id) },
-    "-__v"
-  ).populate("productID", "name");
+  if (user) {
+   comments = await commentModel
+      .find({ user: String(user._id) }, "-__v")
+      .populate("productID", "name");
+  }else{
+    redirect("/login-register")
+  }
 
-  console.log(comments);
 
   return (
     <Layout>
