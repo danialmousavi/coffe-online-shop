@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("./Department");
 require("./SubDepartment");
-require("./User")
+require("./User");
 const schema = new mongoose.Schema(
   {
     title: {
@@ -26,6 +26,10 @@ const schema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "subDepartment",
       required: true,
+    },
+    hasAnswer: {
+      type: Boolean,
+      default: false,
     },
     priority: {
       type: Number,

@@ -31,6 +31,35 @@ export default function SendTickets() {
     };
     getAllSubDepartments();
   }, [DepartmentID]);
+    const sendTicket = async () => {
+    // Validation (You)
+
+    const ticket = {
+      title,
+      body,
+      department: DepartmentID,
+      subDepartment: subDepartmentID,
+      priority,
+    };
+
+    const res = await fetch("/api/tickets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ticket),
+    });
+
+    if (res.status === 201) {
+      swal({
+        title: "تیکت شما با موفقیت ثبت شد",
+        icon: "success",
+        buttons: "مشاهده تیکت‌ها",
+      }).then(() => {
+        location.replace("/p-user/tickets");
+      });
+    }
+  };
   return (
     <main className={styles.container}>
       <h1 className={styles.title}>
@@ -41,9 +70,10 @@ export default function SendTickets() {
       <div className={styles.content}>
         <div className={styles.group}>
           <label>دپارتمان را انتخاب کنید:</label>
-          <select onChange={(e) => setDepartmentID(e.target.value)}>
-            <option value={-1}>لطفا یک مورد را انتخاب نمایید.</option>
-            {departments?.map((department) => (
+          <select onChange={(event) => setDepartmentID(event.target.value)}>
+            <option value={-1}>لطفا دپارتمان را انتخاب نمایید</option>
+
+            {departments.map((department) => (
               <option key={department._id} value={department._id}>
                 {department.title}
               </option>
@@ -51,37 +81,43 @@ export default function SendTickets() {
           </select>
         </div>
         <div className={styles.group}>
-          {subDepartments.length > 0 && (
-            <>
-              <label>نوع تیکت را انتخاب کنید:</label>
-              <select>
-                <option value={-1}>لطفا یک مورد را انتخاب نمایید.</option>
-                {subDepartments?.map((sub) => (
-                  <option key={sub._id} value={sub._id}>
-                    {sub.title}
-                  </option>
-                ))}
-              </select>
-            </>
-          )}
+          <label>نوع تیکت را انتخاب کنید:</label>
+          <select onChange={(event) => setSubDepartmentID(event.target.value)}>
+            <option value={-1}>لطفا یک مورد را انتخاب نمایید</option>
+
+            {subDepartments.map((subDepartment) => (
+              <option key={subDepartment._id} value={subDepartment._id}>
+                {subDepartment.title}{" "}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={styles.group}>
           <label>عنوان تیکت را وارد کنید:</label>
-          <input placeholder="عنوان..." type="text" />
+          <input
+            placeholder="عنوان.."
+            type="text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
         </div>
         <div className={styles.group}>
           <label>سطح اولویت تیکت را انتخاب کنید:</label>
-          <select>
-            <option value={-1}>لطفا یک مورد را انتخاب نمایید.</option>
-            <option value="3">کم</option>
-            <option value="2">متوسط</option>
-            <option value="1">بالا</option>
+          <select onChange={(event) => setPriority(event.target.value)}>
+            <option value={-1}>لطفا یک مورد را انتخاب نمایید</option>
+            <option value={1}>کم</option>
+            <option value={2}>متوسط</option>
+            <option value={3}>بالا</option>
           </select>
         </div>
       </div>
       <div className={styles.group}>
         <label>محتوای تیکت را وارد نمایید:</label>
-        <textarea rows={10}></textarea>
+        <textarea
+          value={body}
+          onChange={(event) => setBody(event.target.value)}
+          rows={10}
+        ></textarea>
       </div>
       <div className={styles.uploader}>
         <span>حداکثر اندازه: 6 مگابایت</span>
@@ -89,7 +125,7 @@ export default function SendTickets() {
         <input type="file" />
       </div>
 
-      <button className={styles.btn}>
+      <button className={styles.btn} onClick={sendTicket}>
         <IoIosSend />
         ارسال تیکت
       </button>
