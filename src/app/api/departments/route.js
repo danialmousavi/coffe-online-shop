@@ -18,3 +18,8 @@ export async function POST(req) {
     );
   }
 }
+export async function GET(req) {
+  connectToDB();
+  const departments=await departmentModel.find({});
+  return Response.json(departments)
+}
