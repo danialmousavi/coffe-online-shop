@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("./Department");
 require("./SubDepartment");
-
+require("./User")
 const schema = new mongoose.Schema(
   {
     title: {
@@ -10,6 +10,11 @@ const schema = new mongoose.Schema(
     },
     body: {
       type: String,
+      required: true,
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     department: {
