@@ -8,7 +8,7 @@ import React from 'react'
 export default async function page() {
     connectToDB();
     const user=await userAuth();
-    const tickets=await ticketModel.find({user:user._id}).populate("department","title");
+    const tickets=await ticketModel.find({user:user._id}).populate("department","title").sort({_id:-1});
     
   return (
    <>
