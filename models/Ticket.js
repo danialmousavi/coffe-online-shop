@@ -27,14 +27,23 @@ const schema = new mongoose.Schema(
       ref: "subDepartment",
       required: true,
     },
-    hasAnswer: {
-      type: Boolean,
-      default: false,
-    },
     priority: {
       type: Number,
       default: 1,
       enum: [1, 2, 3],
+    },
+    hasAnswer: {
+      type: Boolean,
+      default: false,
+    },
+    isAnswer: {
+      type: Boolean,
+      default: false,
+    },
+    mainTicket: {
+      type: mongoose.Types.ObjectId,
+      ref: "Ticket",
+      required: false,
     },
   },
   {

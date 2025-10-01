@@ -57,8 +57,7 @@ const Login = ({ showRegisterForm }) => {
           icon:"success",
           button:"ورود به پنل کاربری"
         }).then(()=>{
-          router.push("/")
-          router.refresh();
+          router.replace("/p-user")
         })
         // ریست کردن ورودی‌ها بعد از موفقیت
         setPhoneOrEmail("");

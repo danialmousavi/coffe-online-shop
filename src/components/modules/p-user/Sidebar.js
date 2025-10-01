@@ -22,7 +22,7 @@ const Sidebar = () => {
       //code
       if (result) {
         const res = await fetch("/api/auth/signout");
-        router.push("/")
+        router.replace("/")
       }
     });
   };
