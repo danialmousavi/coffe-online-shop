@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 
 const Layout = async({ children }) => {
   const user =await userAuth();
-  console.log("user in admin panel",user);
   if(!user){
    return redirect("/login-register")
   }
