@@ -24,6 +24,22 @@ export default function DataTable({ users, title }) {
       });
     }
   };
+    const handleDeleteUser = async (userID) => {
+    console.log(userID);
+    const res = await fetch(`/api/user/${userID}`, {
+      method: "DELETE",
+    });
+    console.log(res);
+    if (res.status == 200) {
+      swal({
+        title: " کاربر با موفقیت حذف شد",
+        icon: "success",
+        buttons: "فهمیدم",
+      }).then(() => {
+        router.refresh();
+      });
+    }
+  };
   return (
     <div>
       <div>
@@ -67,7 +83,7 @@ export default function DataTable({ users, title }) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button type="button" className={styles.delete_btn}onClick={()=>handleDeleteUser(user._id)}>
                     حذف
                   </button>
                 </td>

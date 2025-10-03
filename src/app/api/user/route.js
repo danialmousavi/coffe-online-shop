@@ -2,6 +2,8 @@ import connectToDB from "@/configs/db";
 import UserModel from "@/models/User";
 import { userAuth } from "@/utils/userAuth";
 import { valiadtePhone, valiadteEmail } from "@/utils/auth"; 
+import { isValidObjectId } from "mongoose";
+import userModel from "@/models/User";
 
 export async function POST(req) {
   try {
@@ -59,3 +61,4 @@ export async function POST(req) {
     return Response.json({ message: String(err) }, { status: 500 });
   }
 }
+
