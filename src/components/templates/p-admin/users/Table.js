@@ -3,7 +3,8 @@ import React from "react";
 import styles from "./table.module.css";
 import { useRouter } from "next/navigation";
 export default function DataTable({ users, title }) {
-    const router=useRouter()
+  const router = useRouter();
+  //change user role
   const handleChangeUserRole = async (userID) => {
     console.log(userID);
     const res = await fetch("/api/user/role", {
@@ -24,21 +25,62 @@ export default function DataTable({ users, title }) {
       });
     }
   };
-    const handleDeleteUser = async (userID) => {
-    console.log(userID);
-    const res = await fetch(`/api/user/${userID}`, {
-      method: "DELETE",
+  //delete user
+  const handleDeleteUser = async (userID) => {
+    // Confirm ✅
+    // Validation (You) ✅
+    swal({
+      title: "آیا از حذف کاربر اطمینان دارین؟",
+      icon: "warning",
+      buttons: ["نه", "آره"],
+    }).then(async (result) => {
+      if (result) {
+        //delete user
+        const res = await fetch(`/api/user/${userID}`, {
+          method: "DELETE",
+        });
+        console.log(res);
+        if (res.status == 200) {
+          swal({
+            title: " کاربر با موفقیت حذف شد",
+            icon: "success",
+            buttons: "فهمیدم",
+          }).then(() => {
+            router.refresh();
+          });
+        }
+      }
     });
-    console.log(res);
-    if (res.status == 200) {
-      swal({
-        title: " کاربر با موفقیت حذف شد",
-        icon: "success",
-        buttons: "فهمیدم",
-      }).then(() => {
-        router.refresh();
-      });
-    }
+  };
+  //ban user
+  const banUser = async (email, phone) => {
+    // Confirm ✅
+    // Validation (You) ✅
+    swal({
+      title: "آیا از بن کاربر اطمینان دارین؟",
+      icon: "warning",
+      buttons: ["نه", "آره"],
+    }).then(async (result) => {
+      if (result) {
+        const res = await fetch("/api/user/ban", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, phone }),
+        });
+
+        if (res.status === 201) {
+          swal({
+            title: "کاربر مورد نظر با موفقیت بن شد",
+            icon: "success",
+            buttons: "فهمیدم",
+          }).then(() => {
+            router.refresh();
+          });
+        }
+      }
+    });
   };
   return (
     <div>
@@ -83,12 +125,20 @@ export default function DataTable({ users, title }) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}onClick={()=>handleDeleteUser(user._id)}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => handleDeleteUser(user._id)}
+                  >
                     حذف
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => banUser(user.email, user.phone)}
+                  >
                     بن
                   </button>
                 </td>

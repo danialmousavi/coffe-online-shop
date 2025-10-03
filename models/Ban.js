@@ -1,0 +1,17 @@
+const { default: mongoose } = require("mongoose");
+const schema = mongoose.Schema({
+  phone: {
+    type: String,
+    required: false,
+  },
+  email: {
+    type: String,
+    required: false,
+  }
+},{
+    timestamps:true
+});
+
+const banModel =
+  mongoose.models.Ban || mongoose.model("Ban", schema);
+export default banModel;
