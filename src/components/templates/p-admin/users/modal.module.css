@@ -1,0 +1,108 @@
+/* پس‌زمینه تاریک */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* جعبه مودال */
+.modal {
+  background: #fff;
+  padding: 30px;
+  border-radius: 14px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-in-out;
+  position: relative;
+  font-family: "Vazir", sans-serif;
+}
+
+/* عنوان */
+.header {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* فرم داخلی */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ورودی‌ها */
+.input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+  outline: none;
+}
+
+/* دکمه ذخیره */
+.submitBtn {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.submitBtn:hover {
+  background: #1565c0;
+}
+
+/* دکمه بستن */
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: #d32f2f;
+}
+
+/* انیمیشن ورود */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,61 +1,48 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./table.module.css";
 import { useRouter } from "next/navigation";
+import Modal from "./Modal";
+import swal from "sweetalert"; // یادت نره ایمپورت کنی
+
 export default function DataTable({ users, title }) {
   const router = useRouter();
-  //change user role
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  // تغییر نقش
   const handleChangeUserRole = async (userID) => {
-    console.log(userID);
     const res = await fetch("/api/user/role", {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: userID }),
     });
-    console.log(res);
-    if (res.status == 200) {
-      swal({
-        title: "نقش کاربر با موفقیت تغییر یافت",
-        icon: "success",
-        buttons: "فهمیدم",
-      }).then(() => {
-        router.refresh();
-      });
+
+    if (res.status === 200) {
+      swal({ title: "نقش کاربر با موفقیت تغییر یافت", icon: "success", buttons: "فهمیدم" })
+        .then(() => router.refresh());
     }
   };
-  //delete user
+
+  // حذف
   const handleDeleteUser = async (userID) => {
-    // Confirm ✅
-    // Validation (You) ✅
     swal({
       title: "آیا از حذف کاربر اطمینان دارین؟",
       icon: "warning",
       buttons: ["نه", "آره"],
     }).then(async (result) => {
       if (result) {
-        //delete user
-        const res = await fetch(`/api/user/${userID}`, {
-          method: "DELETE",
-        });
-        console.log(res);
+        const res = await fetch(`/api/user/${userID}`, { method: "DELETE" });
         if (res.status == 200) {
-          swal({
-            title: " کاربر با موفقیت حذف شد",
-            icon: "success",
-            buttons: "فهمیدم",
-          }).then(() => {
-            router.refresh();
-          });
+          swal({ title: "کاربر با موفقیت حذف شد", icon: "success", buttons: "فهمیدم" })
+            .then(() => router.refresh());
         }
       }
     });
   };
-  //ban user
+
+  // بن
   const banUser = async (email, phone) => {
-    // Confirm ✅
-    // Validation (You) ✅
     swal({
       title: "آیا از بن کاربر اطمینان دارین؟",
       icon: "warning",
@@ -64,31 +51,42 @@ export default function DataTable({ users, title }) {
       if (result) {
         const res = await fetch("/api/user/ban", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, phone }),
         });
 
         if (res.status === 201) {
-          swal({
-            title: "کاربر مورد نظر با موفقیت بن شد",
-            icon: "success",
-            buttons: "فهمیدم",
-          }).then(() => {
-            router.refresh();
-          });
+          swal({ title: "کاربر مورد نظر با موفقیت بن شد", icon: "success", buttons: "فهمیدم" })
+            .then(() => router.refresh());
         }
       }
     });
   };
+
+  // 🔹 ویرایش کاربر
+  const handleEditUser = async (formData) => {
+    console.log(selectedUser._id,formData);
+    
+    const res = await fetch(`/api/user/${selectedUser._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (res.status === 200) {
+      swal({ title: "کاربر با موفقیت ویرایش شد", icon: "success", buttons: "فهمیدم" })
+        .then(() => {
+          setIsModalOpen(false);
+          router.refresh();
+        });
+    } else {
+      swal({ title: "خطا در ویرایش", icon: "error", buttons: "باشه" });
+    }
+  };
+
   return (
     <div>
-      <div>
-        <h1 className={styles.title}>
-          <span>{title}</span>
-        </h1>
-      </div>
+      <h1 className={styles.title}><span>{title}</span></h1>
       <div className={styles.table_container}>
         <table className={styles.table}>
           <thead>
@@ -108,37 +106,32 @@ export default function DataTable({ users, title }) {
               <tr key={user._id}>
                 <td>{index + 1}</td>
                 <td>{user.name}</td>
-                <td>{user.email ? user.email : "ایمیل یافت نشد"}</td>
+                <td>{user.email || "ایمیل یافت نشد"}</td>
                 <td>{user.role === "USER" ? "کاربر عادی" : "مدیر"}</td>
-                <td>
-                  <button type="button" className={styles.edit_btn}>
-                    ویرایش
-                  </button>
-                </td>
                 <td>
                   <button
                     type="button"
                     className={styles.edit_btn}
-                    onClick={(e) => handleChangeUserRole(user._id)}
+                    onClick={() => {
+                      setSelectedUser(user); // انتخاب کاربر
+                      setIsModalOpen(true);   // باز کردن مودال
+                    }}
                   >
+                    ویرایش
+                  </button>
+                </td>
+                <td>
+                  <button className={styles.edit_btn} onClick={() => handleChangeUserRole(user._id)}>
                     تغییر نقش
                   </button>
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    className={styles.delete_btn}
-                    onClick={() => handleDeleteUser(user._id)}
-                  >
+                  <button className={styles.delete_btn} onClick={() => handleDeleteUser(user._id)}>
                     حذف
                   </button>
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    className={styles.delete_btn}
-                    onClick={() => banUser(user.email, user.phone)}
-                  >
+                  <button className={styles.delete_btn} onClick={() => banUser(user.email, user.phone)}>
                     بن
                   </button>
                 </td>
@@ -147,6 +140,14 @@ export default function DataTable({ users, title }) {
           </tbody>
         </table>
       </div>
+
+      {/* 🔹 مودال */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleEditUser}
+        user={selectedUser}
+      />
     </div>
   );
 }
