@@ -1,7 +1,7 @@
 import styles from "./answer.module.css";
 
 const Answer = ({ type, title, body, createdAt, user }) => {
-  console.log(type, title);
+  console.log(type, title,body);
   return (
     <section
       className={type == "user" ? styles.userTicket : styles.adminticket}
@@ -10,8 +10,8 @@ const Answer = ({ type, title, body, createdAt, user }) => {
         <p>{new Date(createdAt).toLocaleDateString("fa-IR")} </p>
         <div>
           <div>
-            <p>{user.name}</p>
-            <span>کاربر</span>
+            <p>{user?.name}</p>
+            <span>{type=="user"?"کاربر":"ادمین"}</span>
           </div>
           <img src="/images/user.jpg" alt="" />
         </div>

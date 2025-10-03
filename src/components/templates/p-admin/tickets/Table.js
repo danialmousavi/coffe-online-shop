@@ -10,6 +10,38 @@ export default function DataTable({ tickets, title }) {
     showSwal(body, undefined, "بستن");
   };
 
+  const answerToTicket = async (ticket) => {
+    swal({
+      title: "لطفا پاسخ مورد نظر را وارد کنید:",
+      content: "input",
+      buttons: "ثبت پاسخ",
+    }).then(async (answerText) => {
+      if (answerText) {
+        const answer = {
+          ...ticket,
+          body: answerText,
+          ticketID: ticket._id,
+        };
+
+        const res = await fetch("/api/tickets/answer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(answer),
+        });
+
+        if (res.status === 201) {
+          swal({
+            title: "پاسخ مورد نظر ثبت شد",
+            icon: "success",
+            buttons: "فهمیدم",
+          });
+        }
+      }
+    });
+  };
+
   return (
     <div>
       <div>
@@ -26,7 +58,6 @@ export default function DataTable({ tickets, title }) {
               <th>عنوان</th>
               <th>دپارتمان</th>
               <th>مشاهده</th>
-              <th>حذف</th>
               <th>پاسخ</th>
               <th>بن</th>
             </tr>
@@ -48,12 +79,11 @@ export default function DataTable({ tickets, title }) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.edit_btn}>
-                    حذف
-                  </button>
-                </td>
-                <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => answerToTicket(ticket)}
+                  >
                     پاسخ
                   </button>
                 </td>
