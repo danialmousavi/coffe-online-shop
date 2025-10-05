@@ -1,12 +1,15 @@
 import connectToDB from "@/configs/db";
 import discountModel from "@/models/Discount";
+import { userAuth } from "@/utils/userAuth";
 
 export async function POST(req) {
   try {
     connectToDB();
     const body = await req.json();
     const { code, percent, maxUse } = body;
-
+    const user=await userAuth();
+    console.log(user);
+    
     // Validation ✅
     if (!code || code.trim().length < 3) {
       return Response.json(
@@ -34,6 +37,7 @@ export async function POST(req) {
       code: code.trim(),
       percent,
       maxUse,
+      user:user._id
     });
 
     return Response.json(
