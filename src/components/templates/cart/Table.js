@@ -12,57 +12,67 @@ const stateOptions = stateData();
 
 const Table = () => {
   const [cart, setCart] = useState([]);
+  const [discount, setDiscount] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [originalPrice, setOriginalPrice] = useState(0);
   const [stateSelectedOption, setStateSelectedOption] = useState(null);
   const [changeAddress, setChangeAddress] = useState(false);
-  const [discount, setDiscount] = useState("");
+  const [activeDiscount, setActiveDiscount] = useState(null);
 
   useEffect(() => {
     const localCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(localCart);
   }, []);
 
-  const calcTotalPrice = () => {
-    let totalPrice = 0;
+  useEffect(calcTotalPrice, [cart]);
 
+  function calcTotalPrice() {
+    let price = 0;
     if (cart.length) {
-      totalPrice = cart.reduce(
+      price = cart.reduce(
         (prev, current) => prev + current.price * current.count,
         0
       );
     }
+    setOriginalPrice(price);
+    setTotalPrice(price);
+  }
 
-    return totalPrice;
-  };
   const checkDiscount = async () => {
-    // Validation (You) ✅
+    if (!discount) {
+      return showSwal("کد تخفیفی وارد نشده است", "error", "باشه");
+    }
 
     const res = await fetch("/api/discounts/use", {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code: discount }),
     });
-
-    console.log("Response ->", res);
 
     if (res.status === 404) {
       return showSwal("کد تخفیف وارد شده معتبر نیست", "error", "تلاش مجدد");
     } else if (res.status === 422) {
       return showSwal("کد تخفیف وارد شده منقضی شده", "error", "تلاش مجدد");
     } else if (res.status === 200) {
+      const discountCode = await res.json();
+      const percent = discountCode.percent;
+
+      const newPrice = originalPrice - (originalPrice * percent) / 100;
+
+      setTotalPrice(newPrice);
+      setActiveDiscount(percent);
+
       return showSwal("کد تخفیف با موفقیت اعمال شد", "success", "فهمیدم");
     }
   };
 
   return (
     <>
-      {" "}
       <div className={styles.tabel_container}>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th> جمع جزء</th>
+              <th>جمع جزء</th>
               <th>تعداد</th>
               <th>قیمت</th>
               <th>محصول</th>
@@ -70,8 +80,8 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            {cart.map((item) => (
-              <tr>
+            {cart.map((item, index) => (
+              <tr key={index}>
                 <td>{(item.count * item.price).toLocaleString()} تومان</td>
                 <td className={styles.counter}>
                   <div>
@@ -86,11 +96,10 @@ const Table = () => {
                 <td className={styles.product}>
                   <img
                     src="https://set-coffee.com/wp-content/uploads/2020/12/Red-box-DG--430x430.jpg"
-                    alt=""
+                    alt={item.name}
                   />
                   <Link href={"/"}>{item.name}</Link>
                 </td>
-
                 <td>
                   <IoMdClose className={styles.delete_icon} />
                 </td>
@@ -98,60 +107,50 @@ const Table = () => {
             ))}
           </tbody>
         </table>
+
         <section>
-          <button className={styles.update_btn}> بروزرسانی سبد خرید</button>
+          <button className={styles.update_btn}>بروزرسانی سبد خرید</button>
           <div>
-            <button className={styles.set_off_btn} onClick={checkDiscount}>اعمال کوپن</button>
-            <input type="text" placeholder="کد تخفیف" onChange={(e)=>setDiscount(e.target.value)}/>
+            <button className={styles.set_off_btn} onClick={checkDiscount}>
+              اعمال کوپن
+            </button>
+            <input
+              type="text"
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+              placeholder="کد تخفیف"
+            />
           </div>
         </section>
       </div>
+
       <div className={totalStyles.totals}>
         <p className={totalStyles.totals_title}>جمع کل سبد خرید</p>
 
         <div className={totalStyles.subtotal}>
-          <p>جمع جزء </p>
-          <p>205,000 تومان</p>
+          <p>جمع جزء</p>
+          <p>{originalPrice.toLocaleString()} تومان</p>
         </div>
 
-        <p className={totalStyles.motor}>
-          {" "}
-          پیک موتوری: <strong> 30,000 </strong>
-        </p>
-        <div className={totalStyles.address}>
-          <p>حمل و نقل </p>
-          <span>حمل و نقل به تهران (فقط شهر تهران).</span>
-        </div>
-        <p
-          onClick={() => setChangeAddress((prev) => !prev)}
-          className={totalStyles.change_address}
-        >
-          تغییر آدرس
-        </p>
-        {changeAddress && (
-          <div className={totalStyles.address_details}>
-            <Select
-              defaultValue={stateSelectedOption}
-              onChange={setStateSelectedOption}
-              isClearable={true}
-              placeholder={"استان"}
-              isRtl={true}
-              isSearchable={true}
-              options={stateOptions}
-            />
-            <input type="text" placeholder="شهر" />
-            <input type="number" placeholder="کد پستی" />
-            <button onClick={() => setChangeAddress(false)}>بروزرسانی</button>
+        {activeDiscount && (
+          <div className={totalStyles.discount}>
+            <p>تخفیف ({activeDiscount}٪)</p>
+            <p>{(originalPrice - totalPrice).toLocaleString()} تومان</p>
           </div>
         )}
 
+        <p className={totalStyles.motor}>
+          پیک موتوری: <strong>30,000</strong>
+        </p>
+
         <div className={totalStyles.total}>
-          <p>مجموع</p>
-          <p>{calcTotalPrice().toLocaleString()} تومان</p>
+          <p>مجموع پس از تخفیف</p>
+          <p>{totalPrice.toLocaleString()} تومان</p>
         </div>
+
         <Link href={"/checkout"}>
           <button className={totalStyles.checkout_btn}>
-            ادامه جهت تصویه حساب
+            ادامه جهت تسویه حساب
           </button>
         </Link>
       </div>
