@@ -1,19 +1,18 @@
-
 import React, { useState } from "react";
 import styles from "./login.module.css";
 import Link from "next/link";
-import Sms from "./Sms";
 
 import { valiadteEmail, valiadtePassword } from "@/utils/auth";
 import { showSwal } from "@/utils/Helpers";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
+import LoginSms from "./LoginSms";
 const Login = ({ showRegisterForm }) => {
   const [isLoginWithOtp, setIsLoginWithOtp] = useState(false);
   const [password, setPassword] = useState("");
   const [phoneOrEmail, setPhoneOrEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router=useRouter();
+  const router = useRouter();
   const cancelSendOtp = () => setIsLoginWithOtp(false);
 
   // login with password
@@ -39,7 +38,7 @@ const Login = ({ showRegisterForm }) => {
       return showSwal("پسورد به اندازه کافی قوی نیست", "error", "تلاش مجدد");
     }
 
-    const user = { email:phoneOrEmail, password };
+    const user = { email: phoneOrEmail, password };
 
     try {
       setIsSubmitting(true);
@@ -51,15 +50,14 @@ const Login = ({ showRegisterForm }) => {
       });
 
       if (res.status === 201) {
-    
         swal({
-          title:"با موفقیت لاگین شدین",
-          icon:"success",
-          button:"ورود به پنل کاربری"
-        }).then(()=>{
-          router.replace("/p-user")
+          title: "با موفقیت لاگین شدین",
+          icon: "success",
+          button: "ورود به پنل کاربری",
+        }).then(() => {
+          router.replace("/p-user");
           router.refresh();
-        })
+        });
         // ریست کردن ورودی‌ها بعد از موفقیت
         setPhoneOrEmail("");
         setPassword("");
@@ -73,6 +71,51 @@ const Login = ({ showRegisterForm }) => {
     } catch (error) {
       console.error(error);
       showSwal("مشکلی پیش آمد", "error", "تلاش مجدد");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  //لاگین با رمز یکبارمصرف
+  const handleLoginWithOtp = async () => {
+    const isValidPhone = /^09\d{9}$/.test(phoneOrEmail);
+
+    // اگر شماره موبایل معتبر نبود
+    if (!isValidPhone) {
+      return showSwal("شماره موبایل وارد شده معتبر نیست", "error", "تلاش مجدد");
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      // ارسال درخواست به API ارسال OTP
+      const res = await fetch("/api/auth/sms/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phone: phoneOrEmail }),
+      });
+
+      const data = await res.json();
+
+      // بررسی وضعیت پاسخ
+      if (res.status === 200) {
+        showSwal(data.message || "کد تایید ارسال شد", "success", "باشه");
+        setIsLoginWithOtp(true);
+      } else if (res.status === 404) {
+        showSwal("کاربری با این شماره یافت نشد", "error", "باشه");
+      } else if (res.status === 429) {
+        showSwal(data.message || "درخواست بیش از حد مجاز", "warning", "باشه");
+      } else {
+        showSwal(
+          data.message || "ارسال کد با خطا مواجه شد",
+          "error",
+          "تلاش مجدد"
+        );
+      }
+    } catch (error) {
+      console.error("OTP Error:", error);
+      showSwal("مشکلی در ارسال کد پیش آمد", "error", "تلاش مجدد");
     } finally {
       setIsSubmitting(false);
     }
@@ -112,7 +155,7 @@ const Login = ({ showRegisterForm }) => {
               رمز عبور را فراموش کرده اید؟
             </Link>
             <button
-              onClick={() => setIsLoginWithOtp(true)}
+              onClick={handleLoginWithOtp}
               className={styles.btn}
               disabled={isSubmitting}
             >
@@ -128,7 +171,7 @@ const Login = ({ showRegisterForm }) => {
           </Link>
         </>
       ) : (
-        <Sms cancelSendOtp={cancelSendOtp} />
+        <LoginSms cancelSendOtp={cancelSendOtp} phoneOrEmail={phoneOrEmail} />
       )}
     </>
   );
