@@ -10,7 +10,11 @@ export async function PUT(req) {
     // Validation (You) ✅
 
     const discount = await discountModel.findOne({ code });
-
+    await discountModel.findOneAndUpdate({code},{
+      $inc:{
+        uses:1
+      }
+    })
     if (!discount) {
       return Response.json({ message: "Code not found !!" }, { status: 404 });
     } else if (discount.uses === discount.maxUse) {
