@@ -84,7 +84,24 @@ const Register = ({ showloginForm }) => {
       setIsSubmitting(false); // دوباره فعال کردن دکمه
     }
   };
-
+  const sendOtp = async () => {
+    const res = await fetch("/api/auth/sms/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phone }),
+    });
+    if (res.status == 200) {
+      swal({
+        title: "کد باموفقیت ارسال شد",
+        icon: "success",
+        buttons: "اوکی",
+      }).then(() => {
+        setIsRegisterWithOtp(true);
+      });
+    }
+  };
   return (
     <>
       {!isRegisterWithOtp ? (
@@ -123,7 +140,7 @@ const Register = ({ showloginForm }) => {
             <p
               style={{ marginTop: "1rem" }}
               className={styles.btn}
-              onClick={() => setIsRegisterWithOtp(true)}
+              onClick={() => sendOtp()}
             >
               ثبت نام با کد تایید
             </p>
@@ -148,7 +165,7 @@ const Register = ({ showloginForm }) => {
           </p>
         </>
       ) : (
-        <Sms cancelSendOtp={cancelSendOtp} />
+        <Sms cancelSendOtp={cancelSendOtp} phone={phone} />
       )}
     </>
   );
