@@ -53,8 +53,8 @@ const CommentForm = ({ productID }) => {
   };
   useEffect(()=>{
     const storedUserData=JSON.parse(localStorage.getItem("userInfo"));
-    setUsername(storedUserData.username)
-    setEmail(storedUserData.email)
+    setUsername(storedUserData?.username)
+    setEmail(storedUserData?.email)
   },[])
   return (
     <form className={styles.form} onSubmit={handleSetComment}>

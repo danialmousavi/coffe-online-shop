@@ -18,7 +18,7 @@ export async function POST(req) {
       );
     }
     const hashedPassword = await hashPassword(password);
-    const accessToken = generateAccessToken({ email });
+    const accessToken = generateAccessToken({ email,phone });
     const users = await userModel.find({});
 
     await userModel.create({

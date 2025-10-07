@@ -92,6 +92,8 @@ const Register = ({ showloginForm }) => {
       },
       body: JSON.stringify({ phone }),
     });
+    console.log(res);
+    
     if (res.status == 200) {
       swal({
         title: "کد باموفقیت ارسال شد",
@@ -99,6 +101,14 @@ const Register = ({ showloginForm }) => {
         buttons: "اوکی",
       }).then(() => {
         setIsRegisterWithOtp(true);
+      });
+    }else if(res.status==202){
+      swal({
+        title: "شما با این شماره قبلا ثبت نام شده اید",
+        icon: "warning",
+        buttons: "ورود",
+      }).then(() => {
+        showloginForm()
       });
     }
   };
@@ -165,7 +175,7 @@ const Register = ({ showloginForm }) => {
           </p>
         </>
       ) : (
-        <Sms cancelSendOtp={cancelSendOtp} phone={phone} />
+        <Sms cancelSendOtp={cancelSendOtp} phone={phone} name={name} email={email} />
       )}
     </>
   );

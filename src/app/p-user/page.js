@@ -11,11 +11,11 @@ import WishlistModle from "@/models/Wishlist";
 const page = async() => {
   connectToDB();
   const userInfo=await userAuth();
-  const userTickets=await ticketModel.find({user:userInfo._id}).limit(3).populate("department","title").sort({_id:-1}).lean()
+  const userTickets=await ticketModel.find({user:userInfo?._id}).limit(3).populate("department","title").sort({_id:-1}).lean()
   console.log(userTickets);
-  const tickets=await ticketModel.find({user:userInfo._id})
-  const comments=await commentModel.find({user:String(userInfo._id)})
-  const wishlist=await WishlistModle.find({user:userInfo._id})
+  const tickets=await ticketModel.find({user:userInfo?._id})
+  const comments=await commentModel.find({user:String(userInfo?._id)})
+  const wishlist=await WishlistModle.find({user:userInfo?._id})
 
   return (
     <Layout>

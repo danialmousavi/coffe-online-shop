@@ -1,5 +1,6 @@
 import connectToDB from "@/configs/db";
-import OTP from "@/models/otp";
+import OTP from "@/models/Otp";
+import userModel from "@/models/User";
 
 export async function POST(req) {
   try {
@@ -11,6 +12,19 @@ export async function POST(req) {
       return new Response(
         JSON.stringify({ success: false, message: "شماره موبایل الزامی است" }),
         { status: 400 }
+      );
+    }
+
+    // بررسی اینکه کاربر با این شماره وجود دارد
+    const existingUser = await userModel.findOne({ phone });
+    if (existingUser) {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          exists: true,
+          message: "این شماره قبلاً ثبت‌نام کرده است. لطفاً وارد شوید.",
+        }),
+        { status: 202 } // Accepted, باید لاگین کند
       );
     }
 
@@ -61,6 +75,7 @@ export async function POST(req) {
     return new Response(
       JSON.stringify({
         success: true,
+        exists: false,
         message: "کد تایید ارسال شد",
         phone,
       }),
