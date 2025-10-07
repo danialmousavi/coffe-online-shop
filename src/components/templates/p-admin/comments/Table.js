@@ -69,7 +69,6 @@ export default function DataTable({ comments, title }) {
               <th>محصول</th>
               <th>تاریخ ثبت</th>
               <th>مشاهده</th>
-              <th>ویرایش</th>
               <th>حذف</th>
               <th>تایید / رد</th>
               <th>پاسخ</th>
@@ -96,11 +95,6 @@ export default function DataTable({ comments, title }) {
                     onClick={() => showCommentBody(comment.body)}
                   >
                     مشاهده
-                  </button>
-                </td>
-                <td>
-                  <button type="button" className={styles.edit_btn}>
-                    ویرایش
                   </button>
                 </td>
                 <td>
