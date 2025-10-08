@@ -6,6 +6,37 @@ import swal from "sweetalert";
 export default function DataTable({ products, title }) {
   const router = useRouter();
 
+  //delete product
+  const handleDeleteProduct = async (id) => {
+    console.log(id);
+    swal({
+      title: "آیا از حذف این محصول اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["خیر", "بله"],
+    }).then(async (res) => {
+      if (res) {
+        const res = await fetch(`/api/products/${id}`, {
+          method: "DELETE",
+        });
+        console.log(res);
+        if (res.status == 200) {
+          swal({
+            title: "محصول با موفقیت حذف شد",
+            icon: "success",
+            buttons: "متوجه شدم",
+          }).then(() => {
+            router.refresh();
+          });
+        } else {
+          swal({
+            title: " متاسفانه مشکلی پیش آمده لطفا بعدا تلاش کنید",
+            icon: "error",
+            buttons: "متوجه شدم",
+          });
+        }
+      }
+    });
+  };
   return (
     <div>
       <div>
@@ -45,7 +76,11 @@ export default function DataTable({ products, title }) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => handleDeleteProduct(product._id)}
+                  >
                     حذف
                   </button>
                 </td>
