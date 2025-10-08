@@ -171,7 +171,7 @@ const Login = ({ showRegisterForm }) => {
           </Link>
         </>
       ) : (
-        <LoginSms cancelSendOtp={cancelSendOtp} phoneOrEmail={phoneOrEmail} />
+        <LoginSms cancelSendOtp={cancelSendOtp} phone={phoneOrEmail} />
       )}
     </>
   );
