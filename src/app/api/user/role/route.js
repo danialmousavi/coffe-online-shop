@@ -2,6 +2,13 @@ import connectToDB from "@/configs/db";
 import userModel from "@/models/User";
 
 export async function PUT(req) {
+  const user = await userAuth();
+  if (user.role != "ADMIN") {
+    return Response.json(
+      { message: "you dont have permission to access this route" },
+      { status: 500 }
+    );
+  }
   try {
     connectToDB();
     const reqBody = await req.json();
