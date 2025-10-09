@@ -18,7 +18,6 @@ export default function Modal({ isOpen, onClose, onSubmit, product }) {
   const [longDescription, setLongDescription] = useState(product.longDescription || "");
 
   // ولیدیشن فرم
-// ولیدیشن فرم برای همه فیلدها
 const validateForm = () => {
   if (!name.trim()) {
     swal("خطا", "نام محصول الزامی است", "error");

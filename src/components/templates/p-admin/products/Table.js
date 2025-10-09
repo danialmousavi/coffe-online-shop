@@ -4,10 +4,13 @@ import styles from "./table.module.css";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
 import Modal from "./Modal";
+import DetailsModal from "./DetailsModal";
 export default function DataTable({ products, title }) {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedDetailProduct, setSelectedDetailProduct] = useState(null);
   //delete product
   const handleDeleteProduct = async (id) => {
     console.log(id);
@@ -91,7 +94,14 @@ export default function DataTable({ products, title }) {
                 <td>{product.score}</td>
 
                 <td>
-                  <button type="button" className={styles.edit_btn}>
+                  <button
+                    type="button"
+                    className={styles.edit_btn}
+                    onClick={() => {
+                      setSelectedDetailProduct(product); // انتخاب کاربر
+                      setIsDetailModalOpen(true); // باز کردن مودال
+                    }}
+                  >
                     مشاهده جزئیات
                   </button>
                 </td>
@@ -127,6 +137,11 @@ export default function DataTable({ products, title }) {
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleEditProduct}
         product={selectedProduct}
+      />
+      <DetailsModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        product={selectedDetailProduct}
       />
     </div>
   );
