@@ -1,4 +1,4 @@
-import styles from "./Modal.module.css";
+import styles from "@/styles/modal.module.css";
 
 export default function Modal({ isOpen, onClose, onSubmit, user }) {
   if (!isOpen || !user) return null;

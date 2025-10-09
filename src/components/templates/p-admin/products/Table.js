@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./table.module.css";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
+import Modal from "./Modal";
 export default function DataTable({ products, title }) {
   const router = useRouter();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   //delete product
   const handleDeleteProduct = async (id) => {
     console.log(id);
@@ -36,6 +38,29 @@ export default function DataTable({ products, title }) {
         }
       }
     });
+  };
+  //edit product
+  // 🔹 ویرایش کاربر
+  const handleEditProduct = async (formData) => {
+    console.log(selectedProduct._id, formData);
+    const res = await fetch(`/api/products/${selectedProduct._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (res.status === 200) {
+      swal({
+        title: "محصول با موفقیت ویرایش شد",
+        icon: "success",
+        buttons: "فهمیدم",
+      }).then(() => {
+        setIsModalOpen(false);
+        router.refresh();
+      });
+    } else {
+      swal({ title: "خطا در ویرایش", icon: "error", buttons: "باشه" });
+    }
   };
   return (
     <div>
@@ -71,7 +96,14 @@ export default function DataTable({ products, title }) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.edit_btn}>
+                  <button
+                    type="button"
+                    className={styles.edit_btn}
+                    onClick={() => {
+                      setSelectedProduct(product); // انتخاب کاربر
+                      setIsModalOpen(true); // باز کردن مودال
+                    }}
+                  >
                     ویرایش
                   </button>
                 </td>
@@ -89,6 +121,13 @@ export default function DataTable({ products, title }) {
           </tbody>
         </table>
       </div>
+      {/* 🔹 مودال */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleEditProduct}
+        product={selectedProduct}
+      />
     </div>
   );
 }
