@@ -37,6 +37,10 @@ const schema = mongoose.Schema({
   tags: {
     type: [String],
   },
+    img: {
+    type: String,
+    required: true,
+  },
   comments: {
     type: [
       {
