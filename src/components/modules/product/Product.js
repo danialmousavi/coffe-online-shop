@@ -3,39 +3,41 @@ import styles from "./product.module.css";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { CiSearch, CiHeart } from "react-icons/ci";
 
-const Card = ({name,price,img,score}) => {
+const Card = ({ name, price, img, score ,_id}) => {
   return (
     <div className={styles.card}>
       <div className={styles.details_container}>
         <img
-          src={img?img:"https://set-coffee.com/wp-content/uploads/2021/10/041-430x430.png"}
+          src={
+            img
+              ? img
+              : "https://set-coffee.com/wp-content/uploads/2021/10/041-430x430.png"
+          }
           alt=""
-          
         />
         <div className={styles.icons}>
-          <Link href="/">
+          {/* <Link href="/">
             <CiSearch />
             <p className={styles.tooltip}>مشاهده سریع</p>
-          </Link>
+          </Link> */}
           <div>
             <CiHeart />
             <p className={styles.tooltip}>افزودن به علاقه مندی ها </p>
           </div>
         </div>
-        <button>افزودن به سبد خرید</button>
+        <button>
+          <Link href={`/product/${_id}`}>مشاهده محصول</Link>
+        </button>
       </div>
 
       <div className={styles.details}>
-        <Link href={"/"}>
-
-          {name}
-        </Link>
+        <Link href={"/"}>{name}</Link>
         <div>
           {new Array(score).fill(0).map((item, index) => (
             <FaStar key={index} />
           ))}
 
-          {new Array(5 -score).fill(0).map((item, index) => (
+          {new Array(5 - score).fill(0).map((item, index) => (
             <FaRegStar key={index} />
           ))}
         </div>

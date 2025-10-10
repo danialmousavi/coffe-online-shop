@@ -9,7 +9,13 @@ export async function POST(req) {
     const { title, body, department, subDepartment, priority, ticketID } =
       reqBody;
     const user = await userAuth();
-
+    await ticketModel.findOneAndUpdate(
+      {_id:ticketID},{
+        $set:{
+          hasAnswer:true
+        }
+      }
+    )
     await ticketModel.create({
       title,
       body,

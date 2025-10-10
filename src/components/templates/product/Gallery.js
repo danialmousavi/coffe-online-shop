@@ -7,7 +7,7 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useState } from "react";
 
-const Gallery = () => {
+const Gallery = ({product}) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const images = [
     "https://set-coffee.com/wp-content/uploads/2020/12/Gold-DG-700x700.jpg",
@@ -27,14 +27,12 @@ const Gallery = () => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2 gallery-slider"
       >
-        {images.map((img,index) => (
-          <SwiperSlide key={index}>
-            <img src={img} />
+          <SwiperSlide >
+            <img src={product.img} />
           </SwiperSlide>
-        ))}
       </Swiper>
 
-      <Swiper
+      {/* <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
         slidesPerView={4}
@@ -48,7 +46,7 @@ const Gallery = () => {
             <img src={img} />
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
     </section>
   );
 };

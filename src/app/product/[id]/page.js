@@ -27,7 +27,7 @@ const product = async ({params}) => {
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
           <Details product={JSON.parse(JSON.stringify(product))} />
-          <Gallery />
+          <Gallery  product={JSON.parse(JSON.stringify(product))}/>
         </div>
         <Tabs  product={JSON.parse(JSON.stringify(product))} />
         <MoreProducts relatedProducts={JSON.parse(JSON.stringify(relatedProducts))}/>
