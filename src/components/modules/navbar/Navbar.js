@@ -36,7 +36,7 @@ function Navbar({ user }) {
             <Link href="/category">فروشگاه</Link>
           </li>
           <li>
-            <Link href="/blog">وبلاگ</Link>
+            <Link href="/articles">مقالات</Link>
           </li>
           <li>
             <Link href="/contact-us">تماس با ما</Link>
