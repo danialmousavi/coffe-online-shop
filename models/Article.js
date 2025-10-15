@@ -21,6 +21,8 @@ const schema = mongoose.Schema({
     ref: "User",
     required: false,
   },
+},{
+    timestamps:true
 });
 const articleModel =
   mongoose.models.Article || mongoose.model("Article", schema);
