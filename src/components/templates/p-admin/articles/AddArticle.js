@@ -6,54 +6,39 @@ import { useRouter } from "next/navigation";
 
 function AddArticle() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
   const [shortDescription, setShortDescription] = useState("");
-  const [longDescription, setLongDescription] = useState("");
-  const [weight, setWeight] = useState("");
-  const [suitableFor, setSuitableFor] = useState("");
-  const [smell, setSmell] = useState("");
-  const [tags, setTags] = useState("");
-  const [img, setImg] = useState({});
 
-  const addProduct = async () => {
-    // Validation (You) ✅👇
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("price", price);
-    formData.append("shortDescription", shortDescription);
-    formData.append("longDescription", longDescription);
-    formData.append("weight", weight);
-    formData.append("suitableFor", suitableFor);
-    formData.append("smell", smell);
-    formData.append("tags", tags.split("،"));
-    formData.append("img", img);
-
-    const res = await fetch("/api/products", {
+  
+  const AddArticleHandler = async () => {
+    const newArticle={
+      title,
+      body,
+      shortDescription
+    }
+    const res = await fetch("/api/articles", {
       method: "POST",
-      body: formData,
+      headers:{
+        "Content-Type":"application/josn"
+      },
+      body: JSON.stringify(newArticle),
     });
 
     console.log("Res ->", res);
 
     if (res.status === 201) {
       swal({
-        title: "محصول مورد نظر با موفقیت ایجاد شد",
+        title: "مقاله مورد نظر با موفقیت ایجاد شد",
         icon: "success",
         buttons: "فهمیدم",
       }).then(() => {
         router.refresh();
       });
-      setName("");
-      setPrice("");
+      setTitle("");
+      setBody("");
       setShortDescription("");
-      setLongDescription("");
-      setSmell("");
-      setSuitableFor("");
-      setImg({});
-      setTags("");
-      setWeight("")
+
     }
   };
   return (
@@ -63,9 +48,9 @@ function AddArticle() {
         <div>
           <label>عنوان</label>
           <input
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            placeholder="لطفا نام محصول را وارد کنید"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            placeholder="لطفا عنوان مقاله را وارد کنید"
             type="text"
           />
         </div>
@@ -83,15 +68,15 @@ function AddArticle() {
         <div>
           <label>بدنه</label>
           <input
-            value={longDescription}
-            onChange={(event) => setLongDescription(event.target.value)}
-            placeholder="توضیحات بلند محصول"
+            value={body}
+            onChange={(event) => setBody(event.target.value)}
+            placeholder="متن مقاله"
             type="text"
           />
         </div>
 
       </div>
-      <button onClick={addProduct}>افزودن</button>
+      <button onClick={AddArticleHandler}>افزودن</button>
     </section>
   );
 }

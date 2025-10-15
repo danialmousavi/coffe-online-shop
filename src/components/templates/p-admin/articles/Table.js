@@ -5,28 +5,29 @@ import { useRouter } from "next/navigation";
 import swal from "sweetalert";
 import Modal from "./Modal";
 import DetailsModal from "./DetailsModal";
-export default function DataTable({ products, title }) {
+export default function DataTable({ articles, title }) {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedDetailProduct, setSelectedDetailProduct] = useState(null);
+  const [articleDetail,setArticleDetail]=useState({});
   //delete product
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteArticle = async (id) => {
     console.log(id);
     swal({
-      title: "آیا از حذف این محصول اطمینان دارید؟",
+      title: "آیا از حذف این مقاله اطمینان دارید؟",
       icon: "warning",
       buttons: ["خیر", "بله"],
     }).then(async (res) => {
       if (res) {
-        const res = await fetch(`/api/products/${id}`, {
+        const res = await fetch(`/api/articles/${id}`, {
           method: "DELETE",
         });
         console.log(res);
         if (res.status == 200) {
           swal({
-            title: "محصول با موفقیت حذف شد",
+            title: "مقاله با موفقیت حذف شد",
             icon: "success",
             buttons: "متوجه شدم",
           }).then(() => {
@@ -77,28 +78,25 @@ export default function DataTable({ products, title }) {
           <thead>
             <tr>
               <th>شناسه</th>
-              <th>نام</th>
-              <th>قیمت</th>
-              <th>امتیاز</th>
+              <th>عنوان</th>
+              <th>توضیحات کوتاه</th>
               <th>مشاهده جزئیات</th>
               <th>ویرایش</th>
               <th>حذف</th>
             </tr>
           </thead>
           <tbody>
-            {/* {products.map((product, index) => (
-              <tr key={product._id}>
+            {articles?.map((article, index) => (
+              <tr key={article._id}>
                 <td>{index + 1}</td>
-                <td>{product.name}</td>
-                <td>{product.price.toLocaleString()}</td>
-                <td>{product.score}</td>
-
+                <td>{article.title}</td>
+                <td>{article.shortDescription}</td>
                 <td>
                   <button
                     type="button"
                     className={styles.edit_btn}
                     onClick={() => {
-                      setSelectedDetailProduct(product); // انتخاب کاربر
+                      setArticleDetail(article); // انتخاب مقاله
                       setIsDetailModalOpen(true); // باز کردن مودال
                     }}
                   >
@@ -121,13 +119,13 @@ export default function DataTable({ products, title }) {
                   <button
                     type="button"
                     className={styles.delete_btn}
-                    onClick={() => handleDeleteProduct(product._id)}
+                    onClick={() => handleDeleteArticle(article._id)}
                   >
                     حذف
                   </button>
                 </td>
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>
@@ -141,7 +139,7 @@ export default function DataTable({ products, title }) {
       <DetailsModal
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
-        product={selectedDetailProduct}
+        article={articleDetail}
       />
     </div>
   );

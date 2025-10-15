@@ -9,7 +9,8 @@ import AddArticle from "@/components/templates/p-admin/articles/AddArticle";
 const page = async () => {
   connectToDB();
   const articles = await articleModel.find({}).sort({ _id: -1 }).lean();
-
+    console.log("articlesssssssss",articles);
+    
   return (
     <Layout>
       <main>
@@ -19,7 +20,7 @@ const page = async () => {
           <p className={styles.empty}>مقاله ای وجود ندارد</p>
         ) : (
           <Table
-            products={JSON.parse(JSON.stringify(articles))}
+            articles={JSON.parse(JSON.stringify(articles))}
             title="لیست محصولات"
           />
         )}
