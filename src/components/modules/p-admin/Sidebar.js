@@ -9,7 +9,7 @@ import { TbListDetails } from "react-icons/tb";
 import Link from "next/link";
 import swal from "sweetalert";
 
-const Sidebar = () => {
+const Sidebar = ({user}) => {
   const path = usePathname();
   const router=useRouter()
   const logoutHandler = () => {
@@ -36,7 +36,7 @@ const Sidebar = () => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebar_header}>
-        <p>خوش اومدی شاهین عزیز</p>
+        <p>خوش اومدی {user.name} عزیز</p>
       </div>
       <ul className={styles.sidebar_main}>
         {path.includes("/p-user") ? (
