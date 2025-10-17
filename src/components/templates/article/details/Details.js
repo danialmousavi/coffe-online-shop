@@ -4,21 +4,20 @@ import { FaAngleLeft, FaAngleRight, FaFacebookF, FaLinkedinIn, FaPinterest, FaTe
 import { IoGridOutline } from "react-icons/io5";
 import styles from './details.module.css'
 
-const Details = () => {
+const Details = ({title,body,shortDescription,creator,createdAt}) => {
   return (
     <>
            <p className={styles.tag}>قهوه</p>
-                <p className={styles.title}>نوشیدن قهوه تجربه ای است که به طور کامل مغز را به فعالیت وادار می کند</p>
+                <p className={styles.title}>{title}</p>
                 <div className={styles.author}>
                     <p>نویسنده</p>
                     <img src="https://secure.gravatar.com/avatar/665a1a4dc7cc052eaa938253ef413a78?s=32&d=mm&r=g" alt="" />
-                    <p>Mohebi</p>
+                    <p>{creator.name}</p>
                 </div>
-
-                <div className={styles.main_img}>
+                {body}
+                {/* <div className={styles.main_img}>
                     <div class={styles.date}>
-                        <span>24</span>
-                        <span>بهمن</span>
+                        <span>{new Date(createdAt).toLocaleDateString("fa-IR")}</span>
                     </div>
                     <img src="https://set-coffee.com/wp-content/uploads/2024/01/coffe.jpg" alt="" />
                 </div>
@@ -37,7 +36,7 @@ const Details = () => {
                     <p><strong>ماریا پیکو-پرز، سرپرست تیم تحقیق</strong> از دانشگاه Jaume I ، در بیانیه‌ای درباره این یافته‌ها گفت : به عبارت ساده، شرکت کنندگان در این تحقیق بعد از نوشیدن قهوه برای انجام فعالیت هایشان آماده تر بودند و هوشیار آنها نسبت به محرک‌های خارجی بیشتر شده بود.</p>
                     <p>این تحقیق برای بررسی اینکه آیا نوشیدن فنجان های قهوه بدون کافئین ممکن است نتایج مشابهی به همراه داشته باشد یا خیر طراحی نشده بود، اگرچه محققان این فرضیه را مطرح کردند که نوشیدنی های بدون قهوه که حاوی کافئین هستند احتمالاً تغییر وضعیت از حالت استراحت به انجام وظایف را سریعتر می کنند.</p>
                     <p>پیکو پرز ادامه داد: «با در نظر گرفتن اینکه برخی از نتایج این تحقیق به علت وجود کافئین ایجاد می‌شوند، می‌توانیم انتظار داشته باشیم که سایر نوشیدنی‌های کافئین‌دار نیز  اثرات مشابهی را به ایجاد کنند. با این حال، برخی از نتایج نیز فقط مختص نوشیدن قهوه بودند، که ناشی از عواملی مانند بو و طعم خاص این نوشیدنی، یا تاثیر روانی مرتبط با مصرف آن نوشیدنی بود.</p>
-                </section>
+                </section> */}
 
                 <div className={styles.contents}>
                     <div className={styles.icons}>
@@ -47,7 +46,7 @@ const Details = () => {
                         <Link href={'/'}><FaTwitter /></Link>
                         <Link href={'/'}><FaFacebookF /></Link>
                     </div>
-                    <div className={styles.more_articles}>
+                    {/* <div className={styles.more_articles}>
                         <div className={styles.prev_article} >
                             <Link href={'/article/134'} className={styles.icon}>
                                 <FaAngleLeft />
@@ -71,7 +70,7 @@ const Details = () => {
 
 
                         </div>
-                    </div>
+                    </div> */}
                 </div>
     </>
   )
