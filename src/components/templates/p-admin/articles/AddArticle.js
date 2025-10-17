@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./table.module.css";
 import swal from "sweetalert";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "@/components/modules/Editor/Editor";
 
 function AddArticle() {
   const router = useRouter();
@@ -17,10 +18,12 @@ function AddArticle() {
       body,
       shortDescription
     }
+    console.log(newArticle);
+    
     const res = await fetch("/api/articles", {
       method: "POST",
       headers:{
-        "Content-Type":"application/josn"
+           "Content-Type": "application/json", 
       },
       body: JSON.stringify(newArticle),
     });
@@ -55,7 +58,7 @@ function AddArticle() {
           />
         </div>
 
-
+<br />
         <div>
           <label>توضیحات کوتاه</label>
           <input
@@ -65,14 +68,15 @@ function AddArticle() {
             type="text"
           />
         </div>
+          <br />
         <div>
-          <label>بدنه</label>
-          <input
+          {/* <input
             value={body}
             onChange={(event) => setBody(event.target.value)}
             placeholder="متن مقاله"
             type="text"
-          />
+          /> */}
+          <RichTextEditor setBody={setBody} body={body}/>
         </div>
 
       </div>

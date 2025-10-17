@@ -8,7 +8,7 @@ const Card = ({title,body,shortDescription,creator,_id}) => {
             <Link href={`/article/${_id}`}>
                 <img src="https://set-coffee.com/wp-content/uploads/2023/04/31810-Coffee.jpg" alt="" />
             </Link>
-            <Link href={'/article/123'} className={styles.title}>{title}</Link>
+            <Link href={`/article/${_id}`} className={styles.title}>{title}</Link>
             <p className={styles.description}>{shortDescription}</p>
             <Link href={`/article/${_id}`}>ادامه مطلب</Link>
         </div>

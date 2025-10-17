@@ -86,6 +86,10 @@ const Sidebar = ({user}) => {
               کامنت ها
             </Link>
 
+            <Link href={"/p-admin/articles"}>
+              <MdSms />
+              مقاله ها
+            </Link>
             <Link href={"/p-admin/tickets"}>
               <MdSms />
               تیکت ها
