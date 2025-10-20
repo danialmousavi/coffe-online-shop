@@ -48,7 +48,7 @@ const Details = ({ title, body, shortDescription, creator, createdAt }) => {
       <p className={styles.shortDescription}>{shortDescription}</p>
 
       {/* 🧾 بدنه مقاله (CKEditor HTML) */}
-<div className={styles.article-body} dangerouslySetInnerHTML={{ __html: body }} />
+<div className={styles.article-body} dangerouslySetInnerHTML={{ __html: cleanBody }} />
 
       {/* 🔗 اشتراک‌گذاری در شبکه‌ها */}
       <div className={styles.contents}>

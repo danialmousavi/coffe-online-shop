@@ -1,9 +1,12 @@
 "use client";
 import React from "react";
-import styles from "@/styles/modal.module.css";
+import styles from "@/styles/articleModal.module.css";
+import DOMPurify from "dompurify";
 
 export default function DetailsModal({ isOpen, onClose, article }) {
   if (!isOpen || !article) return null;
+
+  const cleanBody = DOMPurify.sanitize(article.body);
 
   return (
     <div className={styles.overlay}>
@@ -11,18 +14,13 @@ export default function DetailsModal({ isOpen, onClose, article }) {
         <button className={styles.closeBtn} onClick={onClose}>
           ✕
         </button>
-        <h2 className={styles.header}>محتوای مقاله</h2>
 
-        <div className={styles.content}>
-          <table className={styles.table}>
-            <tbody>
-              <tr>
-                <td>{article.body}</td>
-              </tr>
- 
-            </tbody>
-          </table>
-        </div>
+        <h2 className={styles.title}>{article.title}</h2>
+
+        <div
+          className={styles.content}
+          dangerouslySetInnerHTML={{ __html: cleanBody }}
+        />
       </div>
     </div>
   );
