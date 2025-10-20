@@ -45,10 +45,13 @@ const Details = ({ title, body, shortDescription, creator, createdAt }) => {
       </div>
 
       {/* 📝 خلاصه کوتاه */}
-      <p className={styles.shortDescription}>{shortDescription}</p>
+      {/* <p className={styles.shortDescription}>{shortDescription}</p> */}
 
       {/* 🧾 بدنه مقاله (CKEditor HTML) */}
-<div className={styles.article-body} dangerouslySetInnerHTML={{ __html: cleanBody }} />
+      <div
+        className={styles.articleBody}
+        dangerouslySetInnerHTML={{ __html: cleanBody }}
+      />
 
       {/* 🔗 اشتراک‌گذاری در شبکه‌ها */}
       <div className={styles.contents}>
@@ -71,14 +74,16 @@ const Details = ({ title, body, shortDescription, creator, createdAt }) => {
         </div>
 
         {/* 📖 ناوبری بین مقالات */}
-        <div className={styles.more_articles}>
-          <div className={styles.prev_article}>
+        <div className={styles.moreArticles}>
+          <div className={styles.prevArticle}>
             <Link href="/article/prev-id" className={styles.icon}>
               <FaAngleLeft />
             </Link>
             <div>
               <p>قدیمی‌تر</p>
-              <Link href="/article/prev-id">مصرف قهوه با شیر برای کاهش التهاب</Link>
+              <Link href="/article/prev-id">
+                مصرف قهوه با شیر برای کاهش التهاب
+              </Link>
             </div>
           </div>
 
@@ -86,13 +91,15 @@ const Details = ({ title, body, shortDescription, creator, createdAt }) => {
             <IoGridOutline />
           </Link>
 
-          <div className={styles.next_article}>
+          <div className={styles.nextArticle}>
             <Link href="/article/next-id" className={styles.icon}>
               <FaAngleRight />
             </Link>
             <div>
               <p>جدیدتر</p>
-              <Link href="/article/next-id">کاهش افسردگی و اضطراب با قهوه</Link>
+              <Link href="/article/next-id">
+                کاهش افسردگی و اضطراب با قهوه
+              </Link>
             </div>
           </div>
         </div>
