@@ -5,6 +5,7 @@ import Banner from "@/components/templates/index/banner/Banner";
 import Latest from "@/components/templates/index/latest/Latest";
 import Promote from "@/components/templates/index/promote/Promote";
 import connectToDB from "@/configs/db";
+import articleModel from "@/models/Article";
 import productModel from "@/models/Product";
 import { userAuth } from "@/utils/userAuth";
 
@@ -12,7 +13,8 @@ export default async function Home() {
   const user=await userAuth()
   connectToDB();
   const products=await productModel.find({},"-comments").sort({_id:-1}).limit(8).lean();
-  console.log("productssssssss",products);
+  const articles=await articleModel.find({},"-body").populate("creator").sort({_id:-1}).lean()
+  console.log("articles",articles);
   
   return (
     <>
@@ -20,7 +22,7 @@ export default async function Home() {
       <Banner />
       <Latest products={JSON.parse(JSON.stringify(products))}/>
       <Promote />
-      <Articles />
+      <Articles articles={JSON.parse(JSON.stringify(articles))} />
       <Footer />
     </>
   );

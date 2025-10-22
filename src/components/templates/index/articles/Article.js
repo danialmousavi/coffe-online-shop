@@ -10,7 +10,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 
-const Card = () => {
+const Card = ({title,creator,createdAt,_id}) => {
   return (
     <div className={styles.card}>
       <Link className={styles.img_container} href={"/article/123"}>
@@ -20,13 +20,12 @@ const Card = () => {
         />
       </Link>
       <div className={styles.date}>
-        <span>24</span>
-        <span>بهمن</span>
+        <span>{new Date(createdAt).toLocaleDateString("fa-IR")}</span>
       </div>
       <div className={styles.details}>
         <span className={styles.tag}>قهوه</span>
-        <Link href={"/article/123"} className={styles.title}>
-          مصرف قهوه با شیر برای کاهش التهاب
+        <Link href={`/article/${_id}`} className={styles.title}>
+          {title}
         </Link>
         <div>
           <p>نویسنده</p>
@@ -34,7 +33,7 @@ const Card = () => {
             src="https://secure.gravatar.com/avatar/665a1a4dc7cc052eaa938253ef413a78?s=32&d=mm&r=g"
             alt=""
           />
-          <p>Mohebi</p>
+          <p>{creator.name}</p>
           <div>
             <MdOutlineSms />
             <span>0</span>

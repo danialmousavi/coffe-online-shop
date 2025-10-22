@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
 import Article from "./Article";
 
-const Articles = () => {
+const Articles = ({articles}) => {
   return (
     <div className={styles.container}>
       <p className={styles.title}>مقالات ما</p>
@@ -23,33 +23,11 @@ const Articles = () => {
           modules={[Navigation, Autoplay]}
           className="mySwiper articles_slider"
         >
+          {articles.map(article=>(
           <SwiperSlide>
-            <Article />
+            <Article  {...article}/>
           </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Article />
-          </SwiperSlide>
+          ))}
         </Swiper>
       </main>
     </div>
